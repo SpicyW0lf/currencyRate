@@ -7,11 +7,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CurrencyDAOImpl implements CurrencyDAO{
+public class CurrencyDAOImpl implements CurrencyDAO {
 
+    public static final CurrencyDAOImpl INSTANCE = new CurrencyDAOImpl();
     private final String url = "jdbc:sqlite:C:\\projects\\currencyRate\\currdb";
 
-    public CurrencyDAOImpl() {
+    private CurrencyDAOImpl() {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -54,7 +55,15 @@ public class CurrencyDAOImpl implements CurrencyDAO{
     }
 
     @Override
-    public void createCurrency(Currency currency) {
-
+    public void createCurrency(Currency currency) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(url)) {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Currencies VALUES (null, ?, ?, ?)");
+            ps.setString(1, currency.code());
+            ps.setString(2, currency.fullName());
+            ps.setString(3, currency.sign());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
     }
 }

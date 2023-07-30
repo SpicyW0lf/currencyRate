@@ -54,6 +54,21 @@ public class CurrencyDAOImpl implements CurrencyDAO {
         }
     }
 
+    public Currency getCurrencyById(int id) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(url)) {
+            PreparedStatement stat = conn.prepareStatement("SELECT * FROM Currencies WHERE id = ?");
+            stat.setInt(1, id);
+            stat.execute();
+            ResultSet rs = stat.getResultSet();
+
+            if (rs.next()) {
+                return CurrencyMapper.mapFromResultSet(rs);
+            } else return null;
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+    }
+
     @Override
     public void createCurrency(Currency currency) throws SQLException {
         try (Connection conn = DriverManager.getConnection(url)) {

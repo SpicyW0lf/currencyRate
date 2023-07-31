@@ -20,19 +20,17 @@ public class CurrencyRateGetAllServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
         try {
+            PrintWriter out = resp.getWriter();
             String json = CurrencyMapper.mapToJson(currencyRateDAO.getAllCurrencyRates());
             resp.setStatus(200);
             out.print(json);
             out.flush();
         } catch (SQLException e) {
             resp.sendError(500, e.getMessage());
-        } finally {
-            out.flush();
         }
     }
 }

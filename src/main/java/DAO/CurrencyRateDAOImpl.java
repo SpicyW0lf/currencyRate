@@ -1,6 +1,7 @@
 package DAO;
 
 import mappers.CurrencyRateMapper;
+import models.Currency;
 import models.CurrencyRate;
 
 import java.sql.*;
@@ -10,6 +11,7 @@ import java.util.List;
 public class CurrencyRateDAOImpl implements CurrencyRateDAO {
 
     public static final CurrencyRateDAOImpl INSTANCE = new CurrencyRateDAOImpl();
+    private final CurrencyDAOImpl currencyDAO = CurrencyDAOImpl.INSTANCE;
     private final String url = "jdbc:sqlite:C:\\projects\\currencyRate\\currdb";
 
     private CurrencyRateDAOImpl(){
@@ -40,7 +42,29 @@ public class CurrencyRateDAOImpl implements CurrencyRateDAO {
 
     @Override
     public CurrencyRate getCurrencyRateByCodes(String code) throws SQLException {
-        return null;
+        String base = code.substring(0, 3);
+        String target = code.substring(3);
+        Currency baseCurr = currencyDAO.getCurrencyByCode(base);
+        Currency targetCurr = currencyDAO.getCurrencyByCode(target);
+
+        if (baseCurr == null || targetCurr == null) {
+            return null;
+        }
+        try (Connection conn = DriverManager.getConnection(url)) {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM ExchangeRates" +
+                    " WHERE BaseCurrencyId = ? AND TargetCurrencyId = ?");
+            ps.setInt(1, baseCurr.id());
+            ps.setInt(2, targetCurr.id());
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+
+            if (!rs.next()) {
+                return null;
+            }
+            return CurrencyRateMapper.mapFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
     }
 
     @Override

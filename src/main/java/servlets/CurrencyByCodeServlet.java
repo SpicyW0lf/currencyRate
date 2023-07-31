@@ -38,6 +38,7 @@ public class CurrencyByCodeServlet extends HttpServlet {
                 PrintWriter pw = resp.getWriter();
                 resp.setContentType("application/json");
                 resp.setCharacterEncoding("UTF-8");
+                resp.setStatus(200);
                 pw.print(json);
                 pw.close();
             }

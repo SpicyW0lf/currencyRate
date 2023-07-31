@@ -69,6 +69,15 @@ public class CurrencyRateDAOImpl implements CurrencyRateDAO {
 
     @Override
     public void createCurrencyRate(CurrencyRate currencyRate) throws SQLException {
-
+        try (Connection conn = DriverManager.getConnection(url)) {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO ExchangeRates" +
+                    " VALUES (null, ?, ?, ?)");
+            ps.setInt(1, currencyRate.baseCurrency().id());
+            ps.setInt(2, currencyRate.targetCurrency().id());
+            ps.setBigDecimal(3, currencyRate.rate());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
     }
 }

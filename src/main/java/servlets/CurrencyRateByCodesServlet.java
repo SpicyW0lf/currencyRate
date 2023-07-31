@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 @WebServlet("/exchangeRate/*")
-public class CurrencyRateByCodes extends HttpServlet {
+public class CurrencyRateByCodesServlet extends HttpServlet {
 
     private final CurrencyRateDAOImpl currencyRateDAO = CurrencyRateDAOImpl.INSTANCE;
 

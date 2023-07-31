@@ -30,7 +30,7 @@ public class CurrencyNewServlet extends HttpServlet {
         }
         try {
             if (currencyDAO.getCurrencyByCode(code) != null) {
-                resp.sendError(409, "Currency with entered code is already in use");
+                resp.sendError(409, "Currency with such code is already exists");
                 return;
             }
             Currency curr = new Currency(0, code, name, sign);

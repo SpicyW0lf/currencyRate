@@ -4,6 +4,7 @@ import mappers.CurrencyRateMapper;
 import models.Currency;
 import models.CurrencyRate;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,21 @@ public class CurrencyRateDAOImpl implements CurrencyRateDAO {
                 return null;
             }
             return CurrencyRateMapper.mapFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+    }
+
+    @Override
+    public void updateCurrencyRate(CurrencyRate currencyRate, BigDecimal rate) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(url)) {
+            PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE ExchangeRates SET rate = ? WHERE BaseCurrencyId = ? AND TargetCurrencyId = ?"
+            );
+            ps.setBigDecimal(1, rate);
+            ps.setInt(2, currencyRate.baseCurrency().id());
+            ps.setInt(3, currencyRate.targetCurrency().id());
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException(e);
         }

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
-@WebServlet("/exchangeRates/new")
+@WebServlet("/exchangeRate/new")
 public class CurrencyRateNewServlet extends HttpServlet {
 
     private final CurrencyRateDAO currencyRateDAO = CurrencyRateDAOImpl.INSTANCE;

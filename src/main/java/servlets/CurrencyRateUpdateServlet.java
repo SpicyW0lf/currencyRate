@@ -1,6 +1,5 @@
 package servlets;
 
-import DAO.CurrencyRateDAO;
 import DAO.CurrencyRateDAOImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,8 +13,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Map;
 
 
 @WebServlet("/exchangeRate/update/*")

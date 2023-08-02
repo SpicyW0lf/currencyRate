@@ -1,43 +1,41 @@
 package servlets;
 
-import DAO.CurrencyDAO;
-import DAO.CurrencyDAOImpl;
+import exceptions.ExceptionHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Currency;
+import services.CurrencyService;
+import util.Validator;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Map;
 
 @WebServlet("/currencies/new")
 public class CurrencyNewServlet extends HttpServlet {
 
-    private final CurrencyDAO currencyDAO = CurrencyDAOImpl.INSTANCE;
+    private final CurrencyService currencyService = CurrencyService.INSTANCE;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String code = req.getParameter("code");
         String sign = req.getParameter("sign");
-        if (name == null || code == null || sign == null) {
-            resp.sendError(400, "You missed one or more arguments");
+        if (Validator.isNotNull(name, code, sign)) {
+            ExceptionHandler.handleException(400, "You missed one or more arguments", resp);
             return;
         }
         try {
-            if (currencyDAO.getCurrencyByCode(code) != null) {
-                resp.sendError(409, "Currency with such code is already exists");
+            if (currencyService.getByCode(code) != null) {
+                ExceptionHandler.handleException(409, "Currency with such code is already exists", resp);
                 return;
             }
-            Currency curr = new Currency(0, code, name, sign);
-            currencyDAO.createCurrency(curr);
+            currencyService.create(code, name, sign);
             resp.sendRedirect("/currency/" + code);
         } catch (SQLException e) {
-            resp.sendError(500, "Unable to connect to database");
+            ExceptionHandler.handleException(500, "Unable to connect to database", resp);
         }
     }
 }

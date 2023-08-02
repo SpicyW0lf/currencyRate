@@ -1,16 +1,14 @@
 package servlets;
 
-import DAO.CurrencyDAO;
-import DAO.CurrencyDAOImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import exceptions.ExceptionHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mappers.CurrencyMapper;
+import mappers.JsonMapper;
 import models.Currency;
+import services.CurrencyService;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,22 +17,22 @@ import java.sql.SQLException;
 @WebServlet("/currency/*")
 public class CurrencyByCodeServlet extends HttpServlet {
 
-    private final CurrencyDAO currencyDAO = CurrencyDAOImpl.INSTANCE;
+    private final CurrencyService currencyService = CurrencyService.INSTANCE;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String code = req.getPathInfo().substring(1);
         if (code.equals("")) {
-            resp.sendError(400, "You haven't put currency code in path");
+            ExceptionHandler.handleException(400, "You haven't put currency code in path", resp);
             return;
         }
 
         try {
-            Currency curr = currencyDAO.getCurrencyByCode(code);
+            Currency curr = currencyService.getByCode(code);
             if (curr == null) {
-                resp.sendError(404, "Currency not found");
+                ExceptionHandler.handleException(404, "Currency not found", resp);
             } else {
-                String json = CurrencyMapper.mapToJson(curr);
+                String json = JsonMapper.toJson(curr);
                 PrintWriter pw = resp.getWriter();
                 resp.setContentType("application/json");
                 resp.setCharacterEncoding("UTF-8");
@@ -43,7 +41,7 @@ public class CurrencyByCodeServlet extends HttpServlet {
                 pw.close();
             }
         } catch (SQLException e) {
-            resp.sendError(500, e.getMessage());
+            ExceptionHandler.handleException(500, e.getMessage(), resp);
         }
     }
 }

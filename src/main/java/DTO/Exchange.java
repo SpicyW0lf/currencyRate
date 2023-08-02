@@ -4,7 +4,7 @@ import models.Currency;
 
 import java.math.BigDecimal;
 
-public record ExchangeDTO(
+public record Exchange(
         Currency baseCurrency,
         Currency targetCurrency,
         BigDecimal rate,

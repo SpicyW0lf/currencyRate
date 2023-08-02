@@ -1,6 +1,5 @@
 package servlets;
 
-import DAO.CurrencyRateDAO;
 import DAO.CurrencyRateDAOImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,8 +14,6 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Map;
 
 @WebServlet("/exchange")
 public class ExchangeServlet extends HttpServlet {

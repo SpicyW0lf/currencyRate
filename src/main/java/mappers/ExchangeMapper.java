@@ -1,6 +1,6 @@
 package mappers;
 
-import DTO.ExchangeDTO;
+import DTO.Exchange;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -14,7 +14,7 @@ public class ExchangeMapper {
 
     public static String toJson(Currency base, Currency to, BigDecimal rate, BigDecimal amount, BigDecimal convertedAmount) throws JsonProcessingException {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        return objectMapper.writeValueAsString(new ExchangeDTO(
+        return objectMapper.writeValueAsString(new Exchange(
                 base,
                 to,
                 rate,

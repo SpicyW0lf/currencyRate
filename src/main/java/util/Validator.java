@@ -14,11 +14,10 @@ public class Validator {
     public static boolean isCodePairValid(String code) {
         if (code == null)
             return false;
-        Pattern pattern = Pattern.compile("([A-Z]{3})([A-Z]{3})");
+        Pattern pattern = Pattern.compile("[A-Z]{6}");
         Matcher matcher = pattern.matcher(code);
-        if (matcher.group(1).equals(matcher.group(2)))
-            return false;
-        return matcher.matches();
+
+        return matcher.matches() && !code.substring(0, 3).equals(code.substring(3));
     }
 
     public static boolean isNotNull(String ...args) {

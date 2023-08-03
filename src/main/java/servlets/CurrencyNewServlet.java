@@ -23,7 +23,7 @@ public class CurrencyNewServlet extends HttpServlet {
         String name = req.getParameter("name");
         String code = req.getParameter("code");
         String sign = req.getParameter("sign");
-        if (Validator.isNotNull(name, code, sign)) {
+        if (!Validator.isNotNull(name, code, sign)) {
             ExceptionHandler.handleException(400, "You missed one or more arguments", resp);
             return;
         }

@@ -6,7 +6,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class JsonMapper {
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    {
+
+    static {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 

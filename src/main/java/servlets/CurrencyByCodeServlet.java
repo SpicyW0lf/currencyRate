@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import mappers.JsonMapper;
 import models.Currency;
 import services.CurrencyService;
+import util.Validator;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,7 +23,7 @@ public class CurrencyByCodeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String code = req.getPathInfo().substring(1);
-        if (code.equals("")) {
+        if (!Validator.isCodeValid(code)) {
             ExceptionHandler.handleException(400, "You haven't put currency code in path", resp);
             return;
         }

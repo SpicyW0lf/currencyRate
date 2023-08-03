@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="884715e5-72a8-4122-8deb-2199086b50b6" name="currdb [2] (DDL) Mapping">
+      <data-sources ddl="eb34d3f0-9b67-4359-baf5-f7f0e9dabde7" />
+      <scope>
+        <node kind="database" negative="1" />
+      </scope>
+    </mapping>
+  </component>
+  <component name="SqlDataSourceStorage">
+    <option name="dataSources">
+      <list>
+        <State>
+          <option name="id" value="eb34d3f0-9b67-4359-baf5-f7f0e9dabde7" />
+          <option name="name" value="currdb [2] (DDL)" />
+          <option name="dbmsName" value="SQLITE" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$" />
+            </array>
+          </option>
+          <option name="remarks" value="copy" />
+          <option name="outLayout" value="File per object by schema.groovy" />
+        </State>
+      </list>
+    </option>
+  </component>
+</project>

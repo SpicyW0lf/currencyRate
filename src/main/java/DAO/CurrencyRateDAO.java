@@ -13,7 +13,7 @@ public class CurrencyRateDAO implements BaseDAO<CurrencyRate> {
 
     public static final CurrencyRateDAO INSTANCE = new CurrencyRateDAO();
     private final CurrencyDAO currencyDAO = CurrencyDAO.INSTANCE;
-    private final String url = "jdbc:sqlite:currdb";
+    private final String url = "jdbc:sqlite::resource:currdb";
 
     private CurrencyRateDAO(){
         try {

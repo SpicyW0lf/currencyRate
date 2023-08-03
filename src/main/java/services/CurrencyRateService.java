@@ -42,4 +42,8 @@ public class CurrencyRateService {
                 BigDecimal.valueOf(Double.parseDouble(rate))
         ));
     }
+
+    public void update(CurrencyRate cr, BigDecimal bigDecimal) throws SQLException {
+        currencyRateDAO.update(cr, bigDecimal);
+    }
 }

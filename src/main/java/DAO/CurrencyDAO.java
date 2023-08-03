@@ -10,7 +10,7 @@ import java.util.List;
 public class CurrencyDAO implements BaseDAO<Currency> {
 
     public static final CurrencyDAO INSTANCE = new CurrencyDAO();
-    private final String url = "jdbc:sqlite:C:\\projects\\currencyRate\\currdb";
+    private final String url = "jdbc:sqlite::resource:currdb";//"jdbc:sqlite:" + System.getProperty("user.home") + "/currdb";
 
     private CurrencyDAO() {
         try {

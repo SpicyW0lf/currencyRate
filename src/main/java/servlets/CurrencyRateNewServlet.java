@@ -1,7 +1,5 @@
 package servlets;
 
-import DAO.CurrencyDAOImpl;
-import DAO.CurrencyRateDAOImpl;
 import exceptions.ExceptionHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,7 +25,7 @@ public class CurrencyRateNewServlet extends HttpServlet {
         String targetCurrencyCode = req.getParameter("targetCurrencyCode");
         String rate = req.getParameter("rate");
 
-        if (Validator.isNotNull(baseCurrencyCode, targetCurrencyCode, rate)) {
+        if (!Validator.isNotNull(baseCurrencyCode, targetCurrencyCode, rate)) {
             ExceptionHandler.handleException(400, "One of parameters is missed", resp);
             return;
         }
